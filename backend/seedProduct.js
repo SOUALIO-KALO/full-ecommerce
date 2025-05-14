@@ -1,4 +1,4 @@
-/* backend/seedProducts.js
+/*
  * Script pour insérer 100 produits variés dans la base de données MongoDB
  */
 const mongoose = require("mongoose");

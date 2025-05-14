@@ -1,4 +1,4 @@
-/* src/components/RegisterPage.jsx
+/*
  * Page d'inscription avec formulaire et création de compte
  */
 import React, { useState } from "react";

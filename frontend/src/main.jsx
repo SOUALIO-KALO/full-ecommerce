@@ -1,13 +1,12 @@
-/* src/main.jsx
+/*
  * Point d'entrée de l'application React, configurant Redux, le routing et la restauration de l'authentification
  */
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom/client";
-import { Provider } from "react-redux";
+import { Provider, useDispatch } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import axios from "axios";
-import { useDispatch } from "react-redux";
 import "./index.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -17,6 +16,7 @@ import RegisterPage from "./components/RegisterPage";
 import CartPage from "./components/CartPage";
 import CheckoutPage from "./components/CheckoutPage";
 import OrdersPage from "./components/OrdersPage";
+import AdminAddProductPage from "./components/AdminAddProductPage";
 
 // Configuration du store Redux pour gérer l'état global (authentification et panier)
 const store = configureStore({
@@ -110,7 +110,10 @@ const App = () => (
               <Route path="/cart" element={<CartPage />} />
               <Route path="/checkout" element={<CheckoutPage />} />
               <Route path="/orders" element={<OrdersPage />} />
-              <Route path="/products" element={<HomePage />} />
+              <Route
+                path="/admin/add-product"
+                element={<AdminAddProductPage />}
+              />
             </Routes>
           </main>
           <Footer />

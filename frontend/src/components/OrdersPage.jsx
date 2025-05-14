@@ -1,4 +1,4 @@
-/* src/components/OrdersPage.jsx
+/*
  * Page affichant l'historique des commandes de l'utilisateur
  */
 import React, { useState, useEffect } from "react";

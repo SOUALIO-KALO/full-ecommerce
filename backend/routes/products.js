@@ -4,6 +4,7 @@ const router = express.Router();
 const { query, body, validationResult } = require("express-validator");
 const Product = require("../models/Product");
 const auth = require("../middleware/auth");
+const mongoose = require("mongoose"); // Importation explicite de mongoose
 
 // Validation pour la création/mise à jour de produit
 const productValidation = [
@@ -75,15 +76,27 @@ router.put("/:id", auth(["admin"]), productValidation, async (req, res) => {
   }
 });
 
-// Route pour supprimer un produit (admin uniquement)
+// DELETE supprimer un produit
 router.delete("/:id", auth(["admin"]), async (req, res) => {
   try {
-    const product = await Product.findByIdAndDelete(req.params.id);
+    const productId = req.params.id;
+    if (!productId || productId === "undefined") {
+      console.error("Erreur: ID du produit est undefined ou vide"); // Débogage
+      return res.status(400).json({ error: "Product ID is required" });
+    }
+    if (!mongoose.isValidObjectId(productId)) {
+      console.error("Erreur: ID du produit invalide:", productId); // Débogage
+      return res.status(400).json({ error: "Invalid product ID" });
+    }
+    const product = await Product.findByIdAndDelete(productId);
     if (!product) {
+      console.warn("Produit non trouvé pour ID:", productId); // Débogage
       return res.status(404).json({ error: "Product not found" });
     }
+    console.log("Produit supprimé:", product); // Débogage
     res.json({ message: "Product deleted successfully" });
   } catch (error) {
+    console.error("Erreur DELETE /api/products/:id:", error); // Débogage
     res.status(400).json({ error: error.message });
   }
 });

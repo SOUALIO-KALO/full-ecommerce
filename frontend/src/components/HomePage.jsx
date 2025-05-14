@@ -1,4 +1,4 @@
-/* src/components/HomePage.jsx
+/*
  * Page principale affichant le catalogue de produits avec recherche et filtres
  */
 import React, { useState, useEffect } from "react";
@@ -46,6 +46,42 @@ const HomePage = () => {
     fetchProducts();
   }, [search, category]);
 
+  // Gestion de la suppression d'un produit
+  const handleDelete = async (productId) => {
+    console.log("handleDelete appelé avec productId:", productId); // Débogage
+    if (!productId) {
+      console.error("Erreur: productId est undefined dans handleDelete"); // Débogage
+      setError("Erreur: ID du produit non défini");
+      return;
+    }
+    setError(null); // Effacer toute erreur précédente
+    console.log(`Envoi de DELETE /api/products/${productId}`); // Débogage
+    try {
+      const deleteResponse = await axios.delete(`/products/${productId}`);
+      console.log("Réponse API DELETE /api/products/:id:", deleteResponse.data); // Débogage
+      // Rafraîchir la liste des produits
+      const updatedResponse = await axios.get("/products", {
+        params: { search, category },
+      });
+      console.log(
+        "Réponse API GET /api/products après suppression:",
+        updatedResponse.data
+      ); // Débogage
+      const validProducts = Array.isArray(updatedResponse.data.products)
+        ? updatedResponse.data.products.filter((product) => product._id)
+        : [];
+      setProducts(validProducts);
+      setError(null); // Confirmer qu'aucune erreur n'est définie après succès
+    } catch (error) {
+      console.error("Erreur lors de la suppression du produit:", error);
+      console.error("Détails de l'erreur:", error.response?.data); // Débogage
+      setError(
+        error.response?.data?.error ||
+          "Erreur lors de la suppression du produit"
+      );
+    }
+  };
+
   return (
     <div className="container mx-auto p-4">
       <div className="mb-4 flex space-x-4">
@@ -77,7 +113,11 @@ const HomePage = () => {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {products.map((product) => (
-            <ProductCard key={product._id} product={product} />
+            <ProductCard
+              key={product._id}
+              product={product}
+              onDelete={handleDelete}
+            />
           ))}
         </div>
       )}

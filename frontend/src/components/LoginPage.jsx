@@ -1,4 +1,4 @@
-/* src/components/LoginPage.jsx
+/*
  * Page de connexion avec formulaire et gestion de l'authentification
  */
 import React, { useState } from "react";

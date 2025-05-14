@@ -1,4 +1,4 @@
-/* src/components/Footer.jsx
+/*
  * Composant de pied de page avec informations de copyright
  */
 import React from "react";

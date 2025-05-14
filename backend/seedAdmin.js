@@ -1,4 +1,4 @@
-/* backend/seedAdmin.js
+/*
  * Script pour créer un utilisateur admin dans la base de données
  */
 const mongoose = require("mongoose");

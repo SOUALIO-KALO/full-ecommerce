@@ -1,4 +1,4 @@
-/* src/components/Header.jsx
+/*
  * Composant d'en-tête avec navigation, gestion de la déconnexion et icône de panier
  */
 import React from "react";
@@ -28,7 +28,7 @@ const Header = () => {
           E-Shop
         </Link>
         <div className="flex space-x-4 items-center">
-          <Link to="/products" className="hover:underline">
+          <Link to="/" className="hover:underline">
             Produits
           </Link>
           <Link to="/cart" className="relative hover:text-gray-300">
@@ -41,6 +41,11 @@ const Header = () => {
           </Link>
           {user ? (
             <>
+              {user.role === "admin" && (
+                <Link to="/admin/add-product" className="hover:underline">
+                  Ajouter/Modifier Produit
+                </Link>
+              )}
               <Link to="/orders" className="hover:underline">
                 Commandes
               </Link>

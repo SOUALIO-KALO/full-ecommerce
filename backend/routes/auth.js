@@ -1,4 +1,4 @@
-/* backend/routes/auth.js
+/*
  * Routes pour gérer l'authentification des utilisateurs
  */
 const express = require("express");
